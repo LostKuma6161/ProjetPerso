@@ -96,7 +96,7 @@ void ABasicMovementCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller)
 	{
-		// Direction relative a la camera (uniquement le Yaw)
+		// Direction relative a la camera (uniquement le Yaw, utile pour pouvoir straff)
 		const FRotator YawRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
 		const FVector Forward = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		const FVector Right = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
@@ -116,7 +116,6 @@ void ABasicMovementCharacter::Look(const FInputActionValue& Value)
 
 void ABasicMovementCharacter::StartSprint()
 {
-	// On ne sprinte pas accroupi
 	if (!bIsCrouched)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
@@ -130,11 +129,12 @@ void ABasicMovementCharacter::StopSprint()
 
 void ABasicMovementCharacter::StartCrouch()
 {
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = CrouchSpeed;
 	Crouch();
 }
 
 void ABasicMovementCharacter::StopCrouch()
 {
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;	
 	UnCrouch();
 }

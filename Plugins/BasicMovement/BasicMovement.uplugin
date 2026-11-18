@@ -17,6 +17,14 @@
 	],
 	"Plugins": [
 		{
+			"Name": "PoseSearch",
+			"Enabled": true
+		},
+		{
+			"Name": "MotionTrajectory",
+			"Enabled": true
+		},
+		{
 			"Name": "EnhancedInput",
 			"Enabled": true
 		}

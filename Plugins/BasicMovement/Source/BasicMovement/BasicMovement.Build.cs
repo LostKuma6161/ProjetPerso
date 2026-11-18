@@ -4,6 +4,7 @@ public class BasicMovement : ModuleRules
 {
 	public BasicMovement(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PrivateDependencyModuleNames.AddRange(new string[] { "MotionTrajectory" });
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[]
@@ -12,7 +13,10 @@ public class BasicMovement : ModuleRules
 			"CoreUObject",
 			"Engine",
 			"InputCore",
-			"EnhancedInput"
+			"EnhancedInput",
+			"AnimGraphRuntime",
+			"PoseSearch",
+			"MotionTrajectory"
 		});
 	}
 }
