@@ -11,6 +11,7 @@ class UInputAction;
 class UInputMappingContext;
 class USpringArmComponent;
 class UCameraComponent;
+class UMMInputConfig;
 
 UENUM(BlueprintType)
 enum class EMMGait : uint8
@@ -56,6 +57,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	TObjectPtr<UMMMovementSettings> MovementSettings;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	TObjectPtr<UMMInputConfig> InputConfig;
+	
 	/** Composant de trajectoire (Motion Trajectory) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Motion Matching")
 	TObjectPtr<UCharacterTrajectoryComponent> TrajectoryComponent;
@@ -65,18 +69,4 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	TObjectPtr<UCameraComponent> FollowCamera;
-
-	/** Mapping Context a assigner dans le Blueprint */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> MoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> LookAction;
-	
-	/** Action de course (touche maintenue) */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> SprintAction;
 };

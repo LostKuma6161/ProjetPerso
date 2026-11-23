@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "MMMovementSettings.h"
 #include "InputAction.h"
+#include "MMInputConfig.h"
 #include "InputMappingContext.h"
 
 AMMCharacter::AMMCharacter()
@@ -50,14 +51,20 @@ void AMMCharacter::BeginPlay()
 
 	ApplyMovementSettings();
 
+	if (!InputConfig)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s : InputConfig non assigne"), *GetName());
+		return;
+	}
+
 	if (APlayerController* PC = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
 			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
-			if (DefaultMappingContext)
+			if (InputConfig->DefaultMappingContext)
 			{
-				Subsystem->AddMappingContext(DefaultMappingContext, 0);
+				Subsystem->AddMappingContext(InputConfig->DefaultMappingContext, 0);
 			}
 		}
 	}
@@ -91,20 +98,25 @@ void AMMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if (!InputConfig)
+	{
+		return;
+	}
+
 	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		if (MoveAction)
+		if (InputConfig->MoveAction)
 		{
-			EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMMCharacter::Move);
+			EIC->BindAction(InputConfig->MoveAction, ETriggerEvent::Triggered, this, &AMMCharacter::Move);
 		}
-		if (LookAction)
+		if (InputConfig->LookAction)
 		{
-			EIC->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMMCharacter::Look);
+			EIC->BindAction(InputConfig->LookAction, ETriggerEvent::Triggered, this, &AMMCharacter::Look);
 		}
-		if (SprintAction)
+		if (InputConfig->SprintAction)
 		{
-			EIC->BindAction(SprintAction, ETriggerEvent::Started, this, &AMMCharacter::StartRun);
-			EIC->BindAction(SprintAction, ETriggerEvent::Completed, this, &AMMCharacter::StopRun);
+			EIC->BindAction(InputConfig->SprintAction, ETriggerEvent::Started, this, &AMMCharacter::StartRun);
+			EIC->BindAction(InputConfig->SprintAction, ETriggerEvent::Completed, this, &AMMCharacter::StopRun);
 		}
 	}
 }
